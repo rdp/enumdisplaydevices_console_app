@@ -1,7 +1,7 @@
 // enumdisplaydevices_console_app.cpp : Defines the entry point for the console application.
 //
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include <Windows.h>
 
 
