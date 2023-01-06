@@ -21,13 +21,13 @@ int _tmain(int argc, _TCHAR* argv[])
 			lDevice.DeviceKey
 			);
 
-		if (lDevice.StateFlags | DISPLAY_DEVICE_ATTACHED_TO_DESKTOP)
+		if (lDevice.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP)
 			printf("attached to desktop\n");
 
-		if (lDevice.StateFlags | DISPLAY_DEVICE_PRIMARY_DEVICE)
+		if (lDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE)
 			printf("device primary device\n");
 
-	    if (lDevice.StateFlags | DISPLAY_DEVICE_ACTIVE)
+	    if (lDevice.StateFlags & DISPLAY_DEVICE_ACTIVE)
 			printf("display active\n");
 
 
