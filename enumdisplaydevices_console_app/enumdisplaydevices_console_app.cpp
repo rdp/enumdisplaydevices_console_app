@@ -10,14 +10,17 @@
 BOOL CALLBACK Monitorenumproc(
   HMONITOR hMonitor,
   HDC unnamedParam2,
-  LPRECT unnamedParam3,
-  LPARAM unnamedParam4
+  LPRECT screenCoords,
+  LPARAM countPointer
 )
 {
 	MONITORINFOEX info;
 	info.cbSize = sizeof(MONITORINFOEX);
-	GetMonitorInfo(hMonitor, &info);
-	wprintf(TEXT("EnumDisplayMonitors %s y: %d to %d x: %d to %d\n"), info.szDevice, info.rcMonitor.top, info.rcMonitor.bottom, info.rcMonitor.left, info.rcMonitor.right);
+	GetMonitorInfo(hMonitor, &info); // get name for fun
+	// also possible to get a DC for that monitor...
+	int* count = (int *) countPointer;
+	wprintf(TEXT("EnumDisplayMonitors index %d %s y: %d to %d x: %d to %d\n"), *count, info.szDevice, info.rcMonitor.top, info.rcMonitor.bottom, info.rcMonitor.left, info.rcMonitor.right);
+	(*count)++;
 	return true; // continue enumeration
 }
 
@@ -70,7 +73,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	int count = 0;
-	EnumDisplayMonitors(NULL, NULL, Monitorenumproc, &count);
-
+	EnumDisplayMonitors(NULL, NULL, Monitorenumproc, (LPARAM) &count);
 	return 0;
 }
