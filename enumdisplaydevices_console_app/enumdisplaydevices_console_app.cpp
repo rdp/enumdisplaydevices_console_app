@@ -5,13 +5,29 @@
 #include <Windows.h>
 
 
+//MONITORENUMPROC Monitorenumproc; doesn't work?
+
+BOOL CALLBACK Monitorenumproc(
+  HMONITOR hMonitor,
+  HDC unnamedParam2,
+  LPRECT unnamedParam3,
+  LPARAM unnamedParam4
+)
+{
+	MONITORINFOEX info;
+	info.cbSize = sizeof(MONITORINFOEX);
+	GetMonitorInfo(hMonitor, &info);
+	wprintf(TEXT("EnumDisplayMonitors %s y: %d to %d x: %d to %d\n"), info.szDevice, info.rcMonitor.top, info.rcMonitor.bottom, info.rcMonitor.left, info.rcMonitor.right);
+	return true; // continue enumeration
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	DISPLAY_DEVICE lDevice;
 	lDevice.cb = sizeof(DISPLAY_DEVICE);
 	int i = 0;
 	while (EnumDisplayDevices(NULL, i, &lDevice, NULL) != 0) {
-		wprintf(TEXT("display i: %d\ncb: %d\nDeviceName: %s\nDeviceString: %s\nStateFlags: %d\nDeviceID: %s\nDeviceKey: %s\n"),
+		wprintf(TEXT("EnumDisplayDevices i: %d\ncb: %d\nDeviceName: %s\nDeviceString: %s\nStateFlags: %d\nDeviceID: %s\nDeviceKey: %s\n"),
 			i,
 			lDevice.cb,
 			lDevice.DeviceName,
@@ -53,6 +69,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		i++;
 	}
 
+	int count = 0;
+	EnumDisplayMonitors(NULL, NULL, Monitorenumproc, &count);
+
 	return 0;
 }
-
